@@ -20,6 +20,7 @@ interface User {
   const todoList = document.getElementById("todo-list");
   const userSelect = document.getElementById("user-todo");
   const form = document.querySelector("form");
+  // определяем типы для массивов
   let todos: Todo[] = [];
   let users: User[] = [];
 
@@ -63,13 +64,12 @@ interface User {
 
   // даем тип аргументу функции (юзер)
   function createUserOption(user: User) {
-    const option = document.createElement("option");
-    // в dataset (дата атрибут html) может быть записано значение только типа string
-    option.value = String(user.id);
-    option.innerText = user.name;
-
     // проверяем, что userSelect существует
     if (userSelect) {
+      const option = document.createElement("option");
+      // в dataset (дата атрибут html) может быть записано значение только типа string
+      option.value = String(user.id);
+      option.innerText = user.name;
       userSelect.append(option);
     }
   }
@@ -128,7 +128,7 @@ interface User {
       todoId && toggleTodoComplete(todoId, completed);
     }
   }
-  function handleClose(this: Element) {
+  function handleClose(this: HTMLSpanElement) {
     const parent = this.parentElement;
     if (parent) {
       const todoId = this.parentElement?.dataset.id;
@@ -177,6 +177,7 @@ interface User {
   }
 
   // даем тип аргументу функции (тудушка)
+  // выбрасываем из нашего интерфейса Todo ключ id, поскольку он задается автоматически при создании todo-шки
   async function createTodo(todo: Omit<Todo, "id">) {
     try {
       const response = await fetch(
